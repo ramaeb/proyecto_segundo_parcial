@@ -1,1 +1,1 @@
-# proyecto_segundo_parcial
+# Proyecto segundo parcial PROGRA

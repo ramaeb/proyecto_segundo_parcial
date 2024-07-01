@@ -112,9 +112,11 @@ def leer_csv(ruta_preguntas):
         # Si el archivo no existe, se crea una lista vacía
         datos_jugadores = []
     return datos
+
+
 def preguntas():
     '''
-    No usar, en revision
+    Test de funciones
     '''
     while True:
         print('-PREGUNTADOS-')

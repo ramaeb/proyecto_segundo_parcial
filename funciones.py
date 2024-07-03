@@ -12,12 +12,13 @@ def crea_texto(texto:str,fuente_nombre="Calibri"):
     text_surface = fuente.render(texto, True, (255,255,255))#
     text_rect = text_surface.get_rect()
     return text_rect,text_surface                
-                                                                        
-def crea_boton(izquierda:int,arriba:int,ancho:int,alto:int,texto:str,fuente_nombre="Calibri",color=(255,255,255)):
+
+
+def crea_boton(izquierda:int,arriba:int,ancho:int,alto:int,texto:str,color=(255,255,255)):
     '''                     
     Retorna BOTON INICIO, RECT DEL TEXT, Y LA SUPERFICIE DEL TEXTO
     '''
-    fuente = font.SysFont(fuente_nombre,40)#Seteo de fuente
+    fuente = pygame.font.Font("proyecto_segundo_parcial/mult/font/pixel_art_font.ttf", 30)
     boton_inicio = Rect(izquierda,arriba,ancho,alto)#Rect del BOTÓN
     text_surface = fuente.render(texto, True, color)#
     text_rect = text_surface.get_rect(center=(izquierda + ancho / 2, arriba + alto / 2))
@@ -31,12 +32,14 @@ def colision_boton(evento,boton):
     '''
     mouse_pos = evento.pos
     print(mouse_pos)
-    
     if(mouse_pos[0]> boton.left and mouse_pos[0]<boton.right) and (mouse_pos[1]< boton.bottom and mouse_pos[1]> boton.top):
         return True
-    
-
-    
+def comprueba_click(mouse_pos, rect):
+    retorno = False
+    if (mouse_pos[0] > rect.left and mouse_pos[0] < rect.right) and (mouse_pos[1] < rect.bottom and 
+    mouse_pos[1] > rect.top):
+        retorno = True
+    return retorno 
 # LISTA JUGADORES TOP 10
 def puntaje_jugadores(lista_jugadores):
         for i in range(len(lista_jugadores)):
@@ -99,14 +102,14 @@ def leer_csv(ruta_preguntas):
     No usar, en revision
     '''
     datos = []
-    with open(ruta_preguntas, mode = 'r') as arhivo:
+    with open(ruta_preguntas, mode = 'r',encoding='utf-8') as arhivo:
         lectura = csv.DictReader(arhivo)
 
         for fila in lectura:
             datos.append(dict(fila))
 
     try:
-        with open('jugadores.json', 'r') as archivo:
+        with open('jugadores.json', 'r',encoding='utf-8') as archivo:
             datos_jugadores = json.load(archivo)
     except FileNotFoundError:
         # Si el archivo no existe, se crea una lista vacía

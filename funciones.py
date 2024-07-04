@@ -6,7 +6,9 @@ import json
 import csv
 import datetime
 import random
+
 ruta_preguntas = "proyecto_segundo_parcial\datos\preguntas.csv"
+
 def crea_texto(texto:str,fuente_nombre="Calibri"):
     fuente = font.SysFont(fuente_nombre,40)#Seteo de fuente
     text_surface = fuente.render(texto, True, (255,255,255))#
@@ -34,12 +36,6 @@ def colision_boton(evento,boton):
     print(mouse_pos)
     if(mouse_pos[0]> boton.left and mouse_pos[0]<boton.right) and (mouse_pos[1]< boton.bottom and mouse_pos[1]> boton.top):
         return True
-def comprueba_click(mouse_pos, rect):
-    retorno = False
-    if (mouse_pos[0] > rect.left and mouse_pos[0] < rect.right) and (mouse_pos[1] < rect.bottom and 
-    mouse_pos[1] > rect.top):
-        retorno = True
-    return retorno 
 # LISTA JUGADORES TOP 10
 def puntaje_jugadores(lista_jugadores):
         for i in range(len(lista_jugadores)):

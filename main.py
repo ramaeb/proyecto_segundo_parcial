@@ -4,7 +4,6 @@ import sys
 from funciones import *
 from pygame import *
 from constantes import *
-from escenas import *
 from clases import *
 '''
 
@@ -20,6 +19,9 @@ imagen_fondo = pygame.transform.scale(imagen_fondo, (HEIGHT,WIDTH))
 #Seteo escenas
 menu = MenuPrincipal(screen) 
 inicio_juego = InicioJuego(screen)
+perdiste = Perdiste(screen,0)
+top10partidas = Top10Partidas(screen)
+lista_jugadores = []
 '''
 Inicio pygame
 '''
@@ -39,14 +41,19 @@ while True:
             escena = inicio_juego.escena
             puntaje = inicio_juego.puntaje
         case "Perdiste":
-            perdiste = Perdiste(screen,puntaje)
+            perdiste.puntaje = puntaje
             perdiste.escena = "Perdiste"
             perdiste.inicio_perdiste()
             escena = perdiste.escena
+            top10partidas.lista_jugadores =  perdiste.datos_jugadores
         case "Ganaste":
             pass
         case "Config":
             pass
+        case "Top10Partidas":
+            top10partidas.escena = "Top10Partidas" 
+            top10partidas.inicio_top10()
+            escena = top10partidas.escena
     display.flip()
     pygame.display.update()
     

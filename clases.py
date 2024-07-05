@@ -13,8 +13,10 @@ class MenuPrincipal():
         self.escena = "Menu"
         self.imagen_fondo = pygame.image.load('proyecto_segundo_parcial/mult/img/preguntados_background.jpg')
         self.imagen_fondo = pygame.transform.scale(self.imagen_fondo, (800, 600))
-        self.boton_inicio, self.text_rect, self.text_surface = crea_boton(300, 370, 200, 70, "Inicio")
-        self.boton_salida, self.text_rect_2, self.text_surface_2 = crea_boton(300, 500, 200, 70, "Salida")
+        self.boton_inicio, self.text_rect, self.text_surface = crea_boton(300, 370, 200, 70, "Inicio")#Boton inicio
+        self.boton_salida, self.text_rect_2, self.text_surface_2 = crea_boton(300, 500, 200, 70, "Salida")#Boton salida
+        self.boton_config, self.text_rect_3, self.text_surface_3 = crea_boton(600, 0, 200, 70, "Config")#Boton config
+        self.boton_top10, self.text_rect_4, self.text_surface_4 = crea_boton(0, 0, 200, 70, "Top10")#Boton top10
         self.sonido_inicio = pygame.mixer.Sound("proyecto_segundo_parcial\mult\sonido\inicio_efecto.mp3")
         self.sonido_inicio.set_volume(0.2)
         self.sonido_inicio.play(loops=0)
@@ -24,12 +26,15 @@ class MenuPrincipal():
         '''
         Hace el render de todos los botones SALIDA E INICIO
         '''
-        
         self.screen.blit(self.imagen_fondo,(0,0))
         draw.rect(self.screen,(116, 191, 64),self.boton_inicio,0,10,10)#Boton inicio
         draw.rect(self.screen,(248, 41, 51),self.boton_salida,0,10,10)#Boton salida (despues del 0 parametros para redondeo del boton)
-        self.screen.blit(self.text_surface_2, self.text_rect_2)
+        draw.rect(self.screen,GRIS,self.boton_config,0,10,10)#boton config
+        draw.rect(self.screen,NARANJA,self.boton_top10,0,10,10)#boton top 10
         self.screen.blit(self.text_surface, self.text_rect)
+        self.screen.blit(self.text_surface_2, self.text_rect_2)
+        self.screen.blit(self.text_surface_3, self.text_rect_3)
+        self.screen.blit(self.text_surface_4, self.text_rect_4)
 
 
     def eventos_menu(self):
@@ -55,7 +60,10 @@ class MenuPrincipal():
                     elif (mouse_pos[0]> self.boton_salida.left and mouse_pos[0]<self.boton_salida.right) and (mouse_pos[1]< self.boton_salida.bottom and mouse_pos[1]> self.boton_salida.top):
                         pygame.quit()
                         sys.exit()
-
+                    elif colision_boton(event,self.boton_top10):
+                        self.escena = "Top10Partidas"
+                    elif colision_boton(event,self.boton_top10):
+                        self.escena = "Config"
     
     def inicio_menu(self):
         '''
@@ -180,8 +188,8 @@ class Perdiste():
         self.rect_1 = pygame.Rect(0,500,100,50)#puntaje
         self.rect_2 = pygame.Rect(200,500,100,50)#puntos
         self.rect_3 = pygame.Rect(10,200,100,50)#nombre
-        self.rect_4 = pygame.Rect(320,200,100,50)#input_nombre
-        self.rect_5 = pygame.Rect(600,500,100,40)#atras
+        self.rect_4 = pygame.Rect(320,200,1000,50)#input_nombre
+        self.rect_5 = pygame.Rect(400,500,100,40)#atras
         self.rect_6 = pygame.Rect(200,10,100,40)#perdiste!
         self.imagen_fondo = pygame.image.load('proyecto_segundo_parcial\mult\img\perdiste_background.jpg')
         self.imagen_fondo = pygame.transform.scale(self.imagen_fondo, (1000, 700))
@@ -190,22 +198,25 @@ class Perdiste():
         self.escena = "Perdiste"
         self.screen = screen
         self.puntaje = puntaje
-        self.user_text = ""
+        self.nombre_jugador = "Click, enter para ingresar."
+        self.toque_caja_input = False
+        self.datos_jugadores = []
 
     def render_perdiste(self):
         puntaje = self.fuente.render('PUNTAJE:', True, BLANCO)
         puntos = self.fuente.render(str(self.puntaje), True, BLANCO)
         nombre = self.fuente.render('Ingrese nombre: ', True, BLANCO)
-        atras = self.fuente.render('ATRAS', True, BLANCO)
+        atras = self.fuente.render('', True, BLANCO,BLANCO)
         texto_perdiste = self.fuente_grande.render('¡PERDISTE!', True, ROJO)
-        texto_escrito = self.fuente.render(self.user_text,True,NEGRO,ROJO)
+        texto_escrito = self.fuente.render(self.nombre_jugador,True,NEGRO,ROJO)
         #Ubicacion de los botones
         texto_rect1 = self.rect_1#puntaje
         texto_rect2 = self.rect_2#puntos
         texto_rect3 = self.rect_3 #nombre
-        texto_rect4 = self.rect_4#input_nombre
+        texto_rect4 = self.rect_4
         texto_rect5 = self.rect_5#atras
         texto_rect6 = self.rect_6
+        pygame.draw.rect(self.screen,NEGRO,self.rect_4)
 
         #Muestra botones y texto
         self.screen.blit(self.imagen_fondo,(0,0))
@@ -215,24 +226,158 @@ class Perdiste():
         self.screen.blit(atras,texto_rect5)
         self.screen.blit(texto_perdiste,texto_rect6)
         self.screen.blit(texto_escrito,texto_rect4)
-        print(self.user_text)
+
+    def crea_dict_datos_jugador(self,lista_jugadores:list):
+        diccionario_datos = {}
+        diccionario_datos['nombre'] = self.nombre_jugador        # agrega valores al diccionario
+        diccionario_datos['puntaje'] = self.puntaje
+        fecha_actual = datetime.datetime.now().date().strftime('%d/%m/%Y')  #pide fecha
+        diccionario_datos['fecha'] = fecha_actual
+        
+        lista_jugadores.append(diccionario_datos)
+        self.datos_jugadores = lista_jugadores
+        return lista_jugadores
+
     def eventos_perdiste(self):
+        '''
+        Input de nombre
+        '''
         for evento in pygame.event.get():
             if evento.type == pygame.QUIT:
                 pygame.quit()  
             elif evento.type == pygame.MOUSEBUTTONUP:
                 if evento.button == 1:
-                    if(colision_boton(evento,self.rect_5)):
-                        self.escena = 'Menu'
-            elif evento.type == pygame.KEYDOWN:
+                    if colision_boton(evento,self.rect_4):
+                        print("HOLA")
+                        self.nombre_jugador = ""
+                        self.toque_caja_input = True #variable tocar click
+    
+            elif evento.type == pygame.KEYDOWN and self.toque_caja_input:
                 if evento.key == pygame.K_BACKSPACE:
-                        self.user_text = self.user_text[:-1]
+                        self.nombre_jugador = self.nombre_jugador[:-1]
+                elif evento.key == pygame.K_RETURN:
+                        self.escena = "Menu"
+                        self.datos_jugadores = self.crea_dict_datos_jugador(self.datos_jugadores)
+                        print(self.datos_jugadores)
+                        self.nombre_jugador = "Click, enter para ingresar."
                 else:
-                        self.user_text += evento.unicode
+                        self.nombre_jugador += evento.unicode
+
     def inicio_perdiste(self):
         self.render_perdiste()
         self.eventos_perdiste()
 
 class Ganaste():
     def __init__(self):
-        pass  
+        pass
+
+
+class Configuracion():
+    def __init__(self):
+        pass
+
+class Top10Partidas():
+    '''
+    Falta ordenar el TOP10
+    '''
+    def __init__(self,screen):
+        self.lista_jugadores = []
+        self.screen = screen
+        self.escena = "Top10Partidas"
+        self.rect_1 = pygame.Rect(0,0,800,54.54)
+        self.rect_2 = pygame.Rect(0,54.54,800,54.54)
+        self.rect_3 = pygame.Rect(0,109.08,800,54.54)
+        self.rect_4 = pygame.Rect(0,163.62,800,54.54)
+        self.rect_5 = pygame.Rect(0,218.16,800,54.540)
+        self.rect_6 = pygame.Rect(0,272.7,800,54.540)
+        self.rect_7 = pygame.Rect(0,327.24,800,54.54)
+        self.rect_8 = pygame.Rect(0,381.78,800,54.54)
+        self.rect_9 = pygame.Rect(0,436.32,800,54.540)
+        self.rect_10 = pygame.Rect(0,490.86,800,54.54)
+        self.rect_11 = pygame.Rect(0,545.4,800,54.54)
+
+        self.fuente = pygame.font.Font(None, 37)
+        #fuente = pygame.font.SysFont('Eras ITC',36)
+        texto = self.fuente.render('partida1', True, ROJO)
+        self.texto_rect = texto.get_rect(center=(0 + 800 // 2, 0 + 54.54 // 2))
+        self.texto2 = self.fuente.render('partida2', True, ROJO)
+        self.texto_rect2 = self.texto2.get_rect(center=(0 + 800 // 2, 54.54 + 54.54 // 2))
+        self.texto3 = self.fuente.render('NO HAY PARTIDAS PARA TOP 10', True, ROJO)
+        self.texto_rect3 = self.texto3.get_rect(center=(0 + 800 // 2, 109.08 + 54.54 // 2))
+        self.texto4 = self.fuente.render('partida4', True, ROJO)
+        self.texto_rect4 = self.texto4.get_rect(center=(0 + 800 // 2, 163.62 + 54.54 // 2))
+        self.texto5 = self.fuente.render('partida5', True, ROJO)
+        self.texto_rect5 = self.texto5.get_rect(center=(0 + 800 // 2, 218.16 + 54.54 // 2))
+        self.texto6 = self.fuente.render('partida6', True, ROJO)
+        self.texto_rect6 = self.texto6.get_rect(center=(0 + 800 // 2, 272.7 + 54.54 // 2))
+        self.texto7 = self.fuente.render('partida7', True, ROJO)
+        self.texto_rect7 = self.texto7.get_rect(center=(0 + 800 // 2, 327.24 + 54.54 // 2))
+        self.texto8 = self.fuente.render('partida8', True, ROJO)
+        self.texto_rect8 = self.texto8.get_rect(center=(0 + 800 // 2, 381.78 + 54.54 // 2))
+        self.texto9 = self.fuente.render('partida9', True, ROJO)
+        self.texto_rect9 = self.texto9.get_rect(center=(0 + 800 // 2, 436.32 + 54.54 // 2))
+        self.texto10 = self.fuente.render('partida10', True, ROJO)
+        self.texto_rect10 = self.texto10.get_rect(center=(0 + 800 // 2, 490.86 + 54.54 // 2))
+        self.texto11 = self.fuente.render('ATRAS', True, ROJO)
+        self.texto_rect11 = self.texto11.get_rect(center=(0 + 800 // 2, 545.4 + 54.54 // 2))
+        
+    def eventos_top10(self):
+        for evento in pygame.event.get():
+            if evento.type == pygame.QUIT:
+                pygame.quit()  
+            elif evento.type == pygame.MOUSEBUTTONUP:
+                if evento.button == 1:
+                    if(colision_boton(evento,self.rect_11)):
+                        self.escena = 'Menu'
+    def render_top10(self):
+        self.screen.fill(NEGRO)
+        pygame.draw.rect(self.screen,NEGRO,self.rect_1)
+        pygame.draw.rect(self.screen,NEGRO,self.rect_2)
+        pygame.draw.rect(self.screen,NEGRO,self.rect_3)
+        pygame.draw.rect(self.screen,NEGRO,self.rect_4)
+        pygame.draw.rect(self.screen,NEGRO,self.rect_5)
+        pygame.draw.rect(self.screen,NEGRO,self.rect_6)
+        pygame.draw.rect(self.screen,NEGRO,self.rect_7)
+        pygame.draw.rect(self.screen,NEGRO,self.rect_8)
+        pygame.draw.rect(self.screen,NEGRO,self.rect_9)
+        pygame.draw.rect(self.screen,NEGRO,self.rect_10)
+        pygame.draw.rect(self.screen,NEGRO,self.rect_11)
+        y = 0  # Posición vertical inicial
+        if len(self.lista_jugadores) < 1:
+            self.screen.blit(self.texto3,(0,100))
+            self.screen.blit(self.texto11,self.texto_rect11)
+        else:
+            textos_renderizados = self.renderiza_lista_textos()
+            for texto in textos_renderizados:
+                self.screen.blit(texto, (0, y))
+                y += 54.54  # Incrementar la posición vertical para el próximo texto
+            self.screen.blit(self.texto11,self.texto_rect11)
+    
+            
+    def renderiza_lista_textos(self):
+        '''
+        Hace un render de los textos para mostrarlos en pantalla.
+        '''
+        lista_textos_renderizados = []
+        lista_jugadores_texto = self.formatea_diccionarios_a_str() 
+        for texto in lista_jugadores_texto:
+            texto_renderizado = self.fuente.render(texto,True,ROJO)
+            lista_textos_renderizados.append(texto_renderizado)
+        return lista_textos_renderizados
+    
+    def formatea_diccionarios_a_str(self):
+        '''
+        Formatea la listas de diccionarios a un string grande.
+        '''
+        if len(self.lista_jugadores) > 0:
+            lista_final = []
+            for item in self.lista_jugadores:
+                texto_aux = ''
+                for clave,valor in item.items():
+                    texto_aux += '|{}: {}|'.format(clave,valor)
+                lista_final.append(texto_aux)
+            return lista_final
+
+    def inicio_top10(self):
+        self.eventos_top10()
+        self.render_top10()

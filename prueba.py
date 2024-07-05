@@ -3,23 +3,17 @@ import sys
 from constantes import *
 import json
 import csv
+import datetime
 
 pygame.init()
 corriendo = True
+escribiendo = False
 indice = 0
 vidas_perdidas = 0
-ruta_preguntas = 'proyecto_segundo_parcial\datos\preguntas.csv'
+nombre_jugador = ''
+lista_prueba = []
 
-rect_subir_volumen = pygame.Rect(650, 100, 50, 50)  # Ejemplo de posición y tamaño
-rect_bajar_volumen = pygame.Rect(650, 200, 50, 50)  # Ejemplo de posición y tamaño
-
-fuente = pygame.font.Font(None, 36)
-
-texto_subir = fuente.render('SUBIR', True, NEGRO)
-texto_bajar = fuente.render('BAJAR', True, NEGRO)
-
-
-
+ruta_preguntas = 'proyecto_segundo_parcial/datos/preguntas.csv'
 datos = []
 with open(ruta_preguntas, mode = 'r') as arhivo:
     lectura = csv.DictReader(arhivo)
@@ -34,6 +28,11 @@ except FileNotFoundError:
     # Si el archivo no existe, se crea una lista vacía
     datos_jugadores = []
 
+def agrega_diccioarios_a_lista(lista_diccionarios: list, lista_a_agregar: list):
+    for item in lista_a_agregar:
+        lista_diccionarios.append(item)
+    return lista_diccionarios
+
 def formatea_diccionarios_a_str(lista_diccionarios: list):
     if len(lista_diccionarios) > 0:
         lista_final = []
@@ -46,39 +45,15 @@ def formatea_diccionarios_a_str(lista_diccionarios: list):
     else:
         return False
     
-def renderiza_lista_textos(lista_textos: list):
-    lista_textos_renderizados = []
 
-    fuente = pygame.font.Font(None, 37)
-
-    for texto in lista_textos:
-        texto_renderizado = fuente.render(texto,True,ROJO)
-        lista_textos_renderizados.append(texto_renderizado)
-        
-    return lista_textos_renderizados
 
 
 def comprueba_click(mouse_pos, rect):
     retorno = False
     if (mouse_pos[0] > rect.left and mouse_pos[0] < rect.right) and (mouse_pos[1] < rect.bottom and 
-                                                                     mouse_pos[1] > rect.top):
+                                                                    mouse_pos[1] > rect.top):
         retorno = True
     return retorno 
-
-
-
-# Definir una función para subir el volumen
-def subir_volumen():
-    volumen_actual = pygame.mixer.music.get_volume()
-    if volumen_actual < 1.0:
-        pygame.mixer.music.set_volume(volumen_actual + 0.1)  # Ajustar según la cantidad deseada
-
-# Definir una función para bajar el volumen
-def bajar_volumen():
-    volumen_actual = pygame.mixer.music.get_volume()
-    if volumen_actual > 0.0:
-        pygame.mixer.music.set_volume(volumen_actual - 0.1)  # Ajustar según la cantidad
-
 
 def mostrar_menu_principal():
     global corriendo
@@ -113,43 +88,18 @@ def mostrar_menu_principal():
                     escena = 'top_10_partidas'
                 elif(comprueba_click(mouse_pos,rect_4)):
                     escena = 'fin'
-                if rect_subir_volumen.collidepoint(mouse_pos): #CLICKS PARA SUBIR Y BAJAR EL VOLUMEN
-                    subir_volumen()
-                elif rect_bajar_volumen.collidepoint(mouse_pos):
-                    bajar_volumen()
-
-
-
 
     pantalla.blit(fondo_redimensionado, (0,0))
-    
 
     pygame.draw.rect(pantalla,AZUL,rect_1)
     pygame.draw.rect(pantalla,AZUL,rect_2)
     pygame.draw.rect(pantalla,AZUL,rect_3)
     pygame.draw.rect(pantalla,AZUL,rect_4)
-    # Dibuja los botones de subir y bajar volumen
-    pygame.draw.rect(pantalla, VERDE, rect_subir_volumen)
-    pygame.draw.rect(pantalla, ROJO, rect_bajar_volumen)
-    
+
     pantalla.blit(texto,texto_rect)
     pantalla.blit(texto2,texto_rect2)
     pantalla.blit(texto3,texto_rect3)
     pantalla.blit(texto4,texto_rect4)
-    # Dibuja los botones de volumen
-    pygame.draw.rect(pantalla, AZUL, rect_subir_volumen)
-    pygame.draw.rect(pantalla, ROJO, rect_bajar_volumen)
-    # Dibuja los textos en los botones
-    pantalla.blit(texto_subir, (rect_subir_volumen.centerx - texto_subir.get_width() // 2,
-                            rect_subir_volumen.centery - texto_subir.get_height() // 2))
-    pantalla.blit(texto_bajar, (rect_bajar_volumen.centerx - texto_bajar.get_width() // 2,
-                            rect_bajar_volumen.centery - texto_bajar.get_height() // 2))
-
-
-
-
-
-
 
 def mostrar_top_10_partidas(lista_top_10: list):
     global corriendo
@@ -223,6 +173,10 @@ def mostrar_top_10_partidas(lista_top_10: list):
 def mostrar_ganaste():
     global corriendo
     global escena
+    global escribiendo
+    global nombre_jugador
+
+    datos_jugador = {}
 
     rect_1 = pygame.Rect(100,10,100,50)
     rect_2 = pygame.Rect(215,10,100,50)
@@ -236,12 +190,12 @@ def mostrar_ganaste():
     pygame.draw.rect(pantalla,NEGRO,rect_3)
     pygame.draw.rect(pantalla,NEGRO,rect_4)
     pygame.draw.rect(pantalla,NEGRO,rect_5)
-    
+
     fuente = pygame.font.Font(None, 37)
     puntaje = fuente.render('PUNTAJE:', True, ROJO)
     puntos = fuente.render('80', True, ROJO)
     nombre = fuente.render('NOMBRE:', True, ROJO)
-    entrada_nombre = fuente.render('X', True, ROJO)
+    entrada_nombre = fuente.render(nombre_jugador, True, ROJO)
     atras = fuente.render('ATRAS', True, ROJO)
     texto_rect1 = puntaje.get_rect(center=(100 + 100 // 2, 10 + 50 // 2))
     texto_rect2 = puntos.get_rect(center=(215 + 100 // 2, 10 + 50 // 2))
@@ -262,11 +216,36 @@ def mostrar_ganaste():
             if evento.button == 1:
                 mouse_pos = evento.pos
                 if(comprueba_click(mouse_pos,rect_5)):
-                    escena = 'menu_principal' 
+                    escena = 'menu_principal'
+                elif(comprueba_click(mouse_pos,rect_4)):
+                    print('rect_4')
+                    escribiendo = True
+        elif evento.type == pygame.KEYDOWN and escribiendo:
+            if evento.key == pygame.K_BACKSPACE:
+                nombre_jugador = nombre_jugador[:-1]
+            elif evento.key == pygame.K_RETURN:
+                datos_jugador['nombre'] = nombre_jugador        # agrega valores al diccionario
+                datos_jugador['puntaje'] = 80
+                fecha_actual = datetime.datetime.now()  # pide fecha
+                fecha_actual = str(fecha_actual)
+                datos_jugador['fecha'] = fecha_actual
+                lista_prueba.append(datos_jugador)
+                print("Nombre ingresado:", nombre_jugador)
+                nombre_jugador = ''
+                datos_jugadores = agrega_diccioarios_a_lista(datos_jugadores,lista_prueba)
+                escena = 'menu_principal'
+            else:
+                print(evento.unicode)
+                nombre_jugador += evento.unicode
 
-def mostrar_perdiste():
+
+def mostrar_perdiste(datos_jugadores: list):
     global corriendo
     global escena
+    global escribiendo
+    global nombre_jugador
+
+    datos_jugador = {}
 
     rect_1 = pygame.Rect(100,10,100,50)
     rect_2 = pygame.Rect(215,10,100,50)
@@ -285,7 +264,7 @@ def mostrar_perdiste():
     puntaje = fuente.render('PUNTAJE:', True, ROJO)
     puntos = fuente.render('80', True, ROJO)
     nombre = fuente.render('NOMBRE:', True, ROJO)
-    entrada_nombre = fuente.render('X', True, ROJO)
+    entrada_nombre = fuente.render(nombre_jugador, True, ROJO)
     atras = fuente.render('ATRAS', True, ROJO)
     texto_rect1 = puntaje.get_rect(center=(100 + 100 // 2, 10 + 50 // 2))
     texto_rect2 = puntos.get_rect(center=(215 + 100 // 2, 10 + 50 // 2))
@@ -306,7 +285,29 @@ def mostrar_perdiste():
             if evento.button == 1:
                 mouse_pos = evento.pos
                 if(comprueba_click(mouse_pos,rect_5)):
-                    escena = 'menu_principal' 
+                    escena = 'menu_principal'
+                elif(comprueba_click(mouse_pos,rect_4)):
+                    print('rect_4')
+                    escribiendo = True
+        elif evento.type == pygame.KEYDOWN and escribiendo:
+            if evento.key == pygame.K_BACKSPACE:
+                nombre_jugador = nombre_jugador[:-1]
+            elif evento.key == pygame.K_RETURN:
+                datos_jugador['nombre'] = nombre_jugador        # agrega valores al diccionario
+                datos_jugador['puntaje'] = 80
+                fecha_actual = datetime.datetime.now()  # pide fecha
+                fecha_actual = str(fecha_actual)
+                datos_jugador['fecha'] = fecha_actual
+                lista_prueba.append(datos_jugador)
+                print("Nombre ingresado:", nombre_jugador)
+                nombre_jugador = ''
+                datos_jugadores = agrega_diccioarios_a_lista(datos_jugadores,lista_prueba)
+                escena = 'menu_principal'
+            else:
+                print(evento.unicode)
+                nombre_jugador += evento.unicode
+    
+    
 
 def mostrar_inciciar_juego(lista_datos: list):
     global corriendo
@@ -376,27 +377,15 @@ def mostrar_inciciar_juego(lista_datos: list):
                             escena = 'perdiste'
 
 
-
-
-
-
-
-
-
-
-
-
-
-
 pantalla = pygame.display.set_mode((800, 600))
 
-fondo = pygame.image.load('proyecto_segundo_parcial/mult/img/preguntados_background.jpg')
+fondo = pygame.image.load('proyecto_segundo_parcial\mult\img\preguntados_background.jpg')
 fondo_redimensionado = pygame.transform.scale(fondo, (800, 600))
 
 escena = 'menu_principal'
 
 while corriendo:
-    print(pygame.mixer.music.get_volume())
+
     if escena == 'menu_principal':
         indice = 0
         vidas_perdidas = 0
@@ -408,13 +397,14 @@ while corriendo:
         textos_renderizados = renderiza_lista_textos(lista_textos)
         mostrar_top_10_partidas(textos_renderizados)
     elif escena == 'perdiste':
-        mostrar_perdiste()
+        mostrar_perdiste(datos_jugadores)
     elif escena =='ganaste':
         mostrar_ganaste()
     elif escena == 'fin':
         corriendo = False
 
     pygame.display.flip()
-
+print()
+print(lista_prueba)
 pygame.quit()
 sys.exit()

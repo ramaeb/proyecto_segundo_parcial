@@ -13,8 +13,12 @@ def crea_texto(texto:str,fuente_nombre="Calibri"):
     fuente = font.SysFont(fuente_nombre,40)#Seteo de fuente
     text_surface = fuente.render(texto, True, (255,255,255))#
     text_rect = text_surface.get_rect()
-    return text_rect,text_surface                
-
+    return text_rect,text_surface        
+        
+def agrega_diccioarios_a_lista(lista_diccionarios: list, lista_a_agregar: list):
+    for item in lista_a_agregar:
+        lista_diccionarios.append(item)
+    return lista_diccionarios
 
 def crea_boton(izquierda:int,arriba:int,ancho:int,alto:int,texto:str,color=(255,255,255)):
     '''                     

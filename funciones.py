@@ -117,26 +117,4 @@ def leer_csv(ruta_preguntas):
     return datos
 
 
-def preguntas():
-    '''
-    Test de funciones
-    '''
-    while True:
-        print('-PREGUNTADOS-')
-        print('1 - Iniciar')
-        print('2 - TOP 10 PARTIDAS')
-        print('3 - Fin')
-        opcion = int(input('Ingrese opcion: '))
-
-        if opcion == 1:
-            iniciar_juego(datos)
-
-        elif opcion == 2:
-            puntaje_jugadores(datos_jugadores)
-        elif opcion == 3:
-            with open(ruta_datos_json, 'w') as archivo:
-                json.dump(datos_jugadores,archivo)
-            break
-            
-
 print(leer_csv(ruta_preguntas))

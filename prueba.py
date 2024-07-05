@@ -79,7 +79,7 @@ def mostrar_menu_principal():
     for evento in lista_eventos:
         if evento.type == pygame.QUIT:
             corriendo = False
-        elif evento.type == pygame.MOUSEBUTTONUP:
+        elif evento.type == pygame.MOUSEBUTNUP:
             if evento.button == 1:
                 mouse_pos = evento.pos
                 if(comprueba_click(mouse_pos,rect_2)):

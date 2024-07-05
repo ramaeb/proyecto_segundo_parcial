@@ -5,6 +5,8 @@ from funciones import *
 from pygame import *
 from constantes import *
 from clases import *
+import json
+import csv
 '''
 
 '''
@@ -21,11 +23,19 @@ menu = MenuPrincipal(screen)
 inicio_juego = InicioJuego(screen)
 perdiste = Perdiste(screen,0)
 top10partidas = Top10Partidas(screen)
-lista_jugadores = []
+ganaste = Ganaste(screen,0)
+
+try:
+    with open('proyecto_segundo_parcial\datos\partidas.json', 'r') as archivo:
+        lista_jugadores = json.load(archivo)
+except:
+    # Si el archivo no existe, se crea una lista vacía
+    lista_jugadores = []
+top10partidas.lista_jugadores = lista_jugadores
 '''
 Inicio pygame
 '''
-while True:
+while menu.corriendo:
     '''
     Falta escena ganador y nombre
     '''
@@ -45,9 +55,22 @@ while True:
             perdiste.escena = "Perdiste"
             perdiste.inicio_perdiste()
             escena = perdiste.escena
-            top10partidas.lista_jugadores =  perdiste.datos_jugadores
+            if len(perdiste.datos_jugadores) == 1:
+                top10partidas.lista_jugadores.append(perdiste.datos_jugadores[0])
+            else:
+                for i in perdiste.datos_jugadores:
+                    print(perdiste.datos_jugadores)
+                    top10partidas.lista_jugadores.append(i)
         case "Ganaste":
-            pass
+            ganaste.inicio_ganaste()
+            escena = ganaste.escena
+            ganaste.puntaje = puntaje
+            if len(ganaste.datos_jugadores) == 1:
+                top10partidas.lista_jugadores.append(ganaste.datos_jugadores[0])
+            else:
+                for x in ganaste.datos_jugadores:
+                    print(ganaste.datos_jugadores)
+                    top10partidas.lista_jugadores.append(x)
         case "Config":
             pass
         case "Top10Partidas":
@@ -56,4 +79,8 @@ while True:
             escena = top10partidas.escena
     display.flip()
     pygame.display.update()
-    
+
+with open('proyecto_segundo_parcial\datos\partidas.json', 'w') as archivo:
+        json.dump(top10partidas.lista_jugadores,archivo)
+pygame.quit()
+sys.exit()

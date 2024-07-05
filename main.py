@@ -55,6 +55,7 @@ while menu.corriendo:
             perdiste.escena = "Perdiste"
             perdiste.inicio_perdiste()
             escena = perdiste.escena
+            
             if len(perdiste.datos_jugadores) == 1:
                 for i in perdiste.datos_jugadores:
                     if i not in top10partidas.lista_jugadores:
@@ -79,6 +80,7 @@ while menu.corriendo:
                 for i in ganaste.datos_jugadores:
                     if i not in top10partidas.lista_jugadores:
                         top10partidas.lista_jugadores.append(i)
+
         case "Config":
             pass
         case "Top10Partidas":

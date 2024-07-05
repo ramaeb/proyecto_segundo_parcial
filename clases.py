@@ -21,6 +21,16 @@ class MenuPrincipal():
         self.sonido_inicio = pygame.mixer.Sound("proyecto_segundo_parcial\mult\sonido\inicio_efecto.mp3")
         self.sonido_inicio.set_volume(0.2)
         self.sonido_inicio.play(loops=0)
+        #MUSICA
+        self.musica_fondo = "proyecto_segundo_parcial/mult/sonido/musica_fondo.mp3"
+        self.volumen = 0.2  # Volumen inicial
+        pygame.mixer.music.load(self.musica_fondo)
+        pygame.mixer.music.set_volume(0.2)  # Volumen inicial de la música de fondo
+        # Botones para ajustar volumen
+        self.boton_subir_volumen, self.text_rect_subir, self.text_surface_subir = crea_boton(600, 100, 50, 50, "+")
+        self.boton_bajar_volumen, self.text_rect_bajar, self.text_surface_bajar = crea_boton(600, 200, 50, 50, "-")
+        self.mostrar_botones_volumen = False
+        #MUSICA
         self.corriendo = True
 
     def subir_volumen(self):
@@ -48,6 +58,11 @@ class MenuPrincipal():
         self.screen.blit(self.text_surface_2, self.text_rect_2)
         self.screen.blit(self.text_surface_3, self.text_rect_3)
         self.screen.blit(self.text_surface_4, self.text_rect_4)
+        if self.mostrar_botones_volumen:
+            draw.rect(self.screen, AZUL, self.boton_subir_volumen, 0, 10, 10)
+            draw.rect(self.screen, AZUL, self.boton_bajar_volumen, 0, 10, 10)
+            self.screen.blit(self.text_surface_subir, self.text_rect_subir)
+            self.screen.blit(self.text_surface_bajar, self.text_rect_bajar)
 
 
     def eventos_menu(self):
@@ -65,16 +80,18 @@ class MenuPrincipal():
                     if colision_boton(event,self.boton_inicio):
                             self.sonido_inicio.stop()
                             print("Toque Boton...")
-                            pygame.mixer.music.load("proyecto_segundo_parcial\mult\sonido\musica_fondo.mp3")
                             pygame.mixer.music.play()
-                            pygame.mixer.music.set_volume(0.2)
                             self.escena = "Inicio"
                     elif (mouse_pos[0]> self.boton_salida.left and mouse_pos[0]<self.boton_salida.right) and (mouse_pos[1]< self.boton_salida.bottom and mouse_pos[1]> self.boton_salida.top):
                         self.corriendo = False
                     elif colision_boton(event,self.boton_top10):
                         self.escena = "Top10Partidas"
-                    elif colision_boton(event,self.boton_top10):
-                        self.escena = "Config"
+                    elif colision_boton(event, self.boton_config):
+                        self.mostrar_botones_volumen = True  # Mostrar botones de volumen
+                    elif colision_boton(event, self.boton_subir_volumen):
+                        self.subir_volumen()
+                    elif colision_boton(event, self.boton_bajar_volumen):
+                        self.bajar_volumen()
     
     def inicio_menu(self):
         '''

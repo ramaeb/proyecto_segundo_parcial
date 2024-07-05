@@ -56,21 +56,29 @@ while menu.corriendo:
             perdiste.inicio_perdiste()
             escena = perdiste.escena
             if len(perdiste.datos_jugadores) == 1:
-                top10partidas.lista_jugadores.append(perdiste.datos_jugadores[0])
+                for i in perdiste.datos_jugadores:
+                    if i not in top10partidas.lista_jugadores:
+                        top10partidas.lista_jugadores.append(perdiste.datos_jugadores[0])
             else:
                 for i in perdiste.datos_jugadores:
-                    print(perdiste.datos_jugadores)
-                    top10partidas.lista_jugadores.append(i)
+                    if i not in top10partidas.lista_jugadores:
+                        top10partidas.lista_jugadores.append(i)
+
+                    
+
         case "Ganaste":
             ganaste.inicio_ganaste()
             escena = ganaste.escena
             ganaste.puntaje = puntaje
+
             if len(ganaste.datos_jugadores) == 1:
-                top10partidas.lista_jugadores.append(ganaste.datos_jugadores[0])
+                for i in ganaste.datos_jugadores:
+                    if i not in top10partidas.lista_jugadores:
+                        top10partidas.lista_jugadores.append(ganaste.datos_jugadores[0])
             else:
-                for x in ganaste.datos_jugadores:
-                    print(ganaste.datos_jugadores)
-                    top10partidas.lista_jugadores.append(x)
+                for i in ganaste.datos_jugadores:
+                    if i not in top10partidas.lista_jugadores:
+                        top10partidas.lista_jugadores.append(i)
         case "Config":
             pass
         case "Top10Partidas":

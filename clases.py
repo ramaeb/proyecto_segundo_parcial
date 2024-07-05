@@ -1,7 +1,8 @@
 #-*- coding: utf-8 -*-
 import pygame
 from funciones import *
-
+import time
+TIEMPO_LIMITE = 30
 
 class MenuPrincipal():
 
@@ -95,7 +96,7 @@ class InicioJuego():
         self.fuente = pygame.font.Font("proyecto_segundo_parcial/mult/font/pixel_art_font.ttf", 14)
         self.fuente_vidas = pygame.font.Font("proyecto_segundo_parcial/mult/font/pixel_art_font.ttf", 30)
         self.color_variable_vida = VERDE
-        self.lista_datos = leer_csv('proyecto_segundo_parcial\datos\preguntas.csv')
+        self.lista_datos = leer_csv('proyecto_segundo_parcial/datos/preguntas.csv')
         self.indice = 0
         self.vidas = 3
         self.puntaje = 0
@@ -105,8 +106,10 @@ class InicioJuego():
         self.rect_4 = pygame.Rect(550,500.62,200,50)
         self.rect_5 = pygame.Rect(10,100.62,200,50)
         self.escena = "Inicio"
+        self.start_time = time.time()#Tiempo inicial
+        self.tiempo_corriendo = time.time() #Tiempo transcurrido
 
-
+        
     def render_menu(self):
         '''
         Muestra todo el inicio, sus botones y centra todo.
@@ -142,7 +145,17 @@ class InicioJuego():
             self.screen.blit(vidas_contador_texto,vidas_posicion)
             self.screen.blit(vidas_contador_texto,vidas_posicion)
             self.screen.blit(vidas_texto,(0,5))
+
+            #tiempoooo
+    
+            self.tiempo_corriendo = time.time() - self.start_time
+            self.tiempo_restante = max(TIEMPO_LIMITE - self.tiempo_corriendo, 0)
+            self.calculo_tiempo = self.tiempo_corriendo - self.start_time
+            self.texto_tiempo = self.fuente.render(f"Tiempo restante:{self.tiempo_restante:.1f} segundos ", True , BLANCO)
+            self.screen.blit(self.texto_tiempo, (60, 60))
+            print(self.tiempo_corriendo)
             
+
         else:
             self.escena = "Ganaste"
 
@@ -171,7 +184,10 @@ class InicioJuego():
                             self.vidas -= 1
                             if self.vidas == 0:
                                 self.escena = 'Perdiste'
-
+    
+            if self.tiempo_restante <= 0:
+                self.escena = 'Perdiste'
+            
     def cambio_color_vidas(self):
         '''
         Toma las vidas del jugador y segun su cantidad blitea un color diferente.
@@ -211,6 +227,8 @@ class Perdiste():
         self.nombre_jugador = "Click, enter para ingresar."
         self.toque_caja_input = False
         self.datos_jugadores = []
+        self.enter = False
+        self.contador = 0
 
     def render_perdiste(self):
         puntaje = self.fuente.render('PUNTAJE:', True, BLANCO)
@@ -252,6 +270,7 @@ class Perdiste():
         '''
         Input de nombre
         '''
+        self.enter = False
         for evento in pygame.event.get():
             if evento.type == pygame.QUIT:
                 pygame.quit()  
@@ -268,8 +287,8 @@ class Perdiste():
                 elif evento.key == pygame.K_RETURN:
                         self.escena = "Menu"
                         self.datos_jugadores = self.crea_dict_datos_jugador(self.datos_jugadores)
-                        print(self.datos_jugadores)
                         self.nombre_jugador = "Click, enter para ingresar."
+                        self.contador = 0
                 else:
                         self.nombre_jugador += evento.unicode
 

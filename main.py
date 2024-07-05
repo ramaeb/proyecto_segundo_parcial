@@ -79,7 +79,6 @@ while menu.corriendo:
                 for i in ganaste.datos_jugadores:
                     if i not in top10partidas.lista_jugadores:
                         top10partidas.lista_jugadores.append(i)
-
         case "Config":
             pass
         case "Top10Partidas":

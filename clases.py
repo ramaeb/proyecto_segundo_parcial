@@ -12,17 +12,29 @@ class MenuPrincipal():
     def __init__(self, screen):
         self.screen = screen
         self.escena = "Menu"
+<<<<<<< HEAD
         self.imagen_fondo = pygame.image.load('mult/img/preguntados_background.jpg')
+=======
+        self.imagen_fondo = pygame.image.load('proyecto_segundo_parcial/mult/img/preguntados_background.jpg')
+>>>>>>> 5cf1fd485d96c27f2757fc39e0a0cd439bc8ad44
         self.imagen_fondo = pygame.transform.scale(self.imagen_fondo, (800, 600))
         self.boton_inicio, self.text_rect, self.text_surface = crea_boton(300, 370, 200, 70, "Inicio")#Boton inicio
         self.boton_salida, self.text_rect_2, self.text_surface_2 = crea_boton(300, 500, 200, 70, "Salida")#Boton salida
         self.boton_config, self.text_rect_3, self.text_surface_3 = crea_boton(600, 0, 200, 70, "Config")#Boton config
         self.boton_top10, self.text_rect_4, self.text_surface_4 = crea_boton(0, 0, 200, 70, "Top10")#Boton top10
+<<<<<<< HEAD
         self.sonido_inicio = pygame.mixer.Sound("mult\sonido\inicio_efecto.mp3")
         self.sonido_inicio.set_volume(0.2)
         self.sonido_inicio.play(loops=0)
         #MUSICA
         self.musica_fondo = "mult/sonido/musica_fondo.mp3"
+=======
+        self.sonido_inicio = pygame.mixer.Sound("proyecto_segundo_parcial\mult\sonido\inicio_efecto.mp3")
+        self.sonido_inicio.set_volume(0.2)
+        self.sonido_inicio.play(loops=0)
+        #MUSICA
+        self.musica_fondo = "proyecto_segundo_parcial/mult/sonido/musica_fondo.mp3"
+>>>>>>> 5cf1fd485d96c27f2757fc39e0a0cd439bc8ad44
         self.volumen = 0.2  # Volumen inicial
         pygame.mixer.music.load(self.musica_fondo)
         pygame.mixer.music.set_volume(0.2)  # Volumen inicial de la música de fondo
@@ -108,12 +120,21 @@ class InicioJuego():
     def __init__(self,screen):
         self.screen = screen
         self.vidas = 3
+<<<<<<< HEAD
         self.imagen_fondo = pygame.image.load('mult\img\inicio_background.jpg')
         self.imagen_fondo = pygame.transform.scale(self.imagen_fondo, (800, 600))
         self.fuente = pygame.font.Font("mult/font/pixel_art_font.ttf", 14)
         self.fuente_vidas = pygame.font.Font("mult/font/pixel_art_font.ttf", 30)
         self.color_variable_vida = VERDE
         self.lista_datos = leer_csv('datos/preguntas.csv')
+=======
+        self.imagen_fondo = pygame.image.load('proyecto_segundo_parcial\mult\img\inicio_background.jpg')
+        self.imagen_fondo = pygame.transform.scale(self.imagen_fondo, (800, 600))
+        self.fuente = pygame.font.Font("proyecto_segundo_parcial/mult/font/pixel_art_font.ttf", 14)
+        self.fuente_vidas = pygame.font.Font("proyecto_segundo_parcial/mult/font/pixel_art_font.ttf", 30)
+        self.color_variable_vida = VERDE
+        self.lista_datos = leer_csv('proyecto_segundo_parcial/datos/preguntas.csv')
+>>>>>>> 5cf1fd485d96c27f2757fc39e0a0cd439bc8ad44
         self.indice = 0
         self.vidas = 3
         self.puntaje = 0
@@ -234,10 +255,17 @@ class Perdiste():
         self.rect_4 = pygame.Rect(320,200,1000,50)#input_nombre
         self.rect_5 = pygame.Rect(400,500,100,40)#atras
         self.rect_6 = pygame.Rect(200,10,100,40)#perdiste!
+<<<<<<< HEAD
         self.imagen_fondo = pygame.image.load('mult\img\perdiste_background.jpg')
         self.imagen_fondo = pygame.transform.scale(self.imagen_fondo, (1000, 700))
         self.fuente = pygame.font.Font("mult/font/pixel_art_font.ttf", 36)
         self.fuente_grande = pygame.font.Font("mult/font/pixel_art_font.ttf", 70)
+=======
+        self.imagen_fondo = pygame.image.load('proyecto_segundo_parcial\mult\img\perdiste_background.jpg')
+        self.imagen_fondo = pygame.transform.scale(self.imagen_fondo, (1000, 700))
+        self.fuente = pygame.font.Font("proyecto_segundo_parcial/mult/font/pixel_art_font.ttf", 36)
+        self.fuente_grande = pygame.font.Font("proyecto_segundo_parcial/mult/font/pixel_art_font.ttf", 70)
+>>>>>>> 5cf1fd485d96c27f2757fc39e0a0cd439bc8ad44
         self.escena = "Perdiste"
         self.screen = screen
         self.puntaje = puntaje
@@ -321,10 +349,17 @@ class Ganaste():
         self.rect_4 = pygame.Rect(320,200,1000,50)#input_nombre
         self.rect_5 = pygame.Rect(400,500,100,40)#atras
         self.rect_6 = pygame.Rect(200,10,100,40)#perdiste!
+<<<<<<< HEAD
         self.imagen_fondo = pygame.image.load('mult\img\ganaste.jpg')
         self.imagen_fondo = pygame.transform.scale(self.imagen_fondo, (1000, 700))
         self.fuente = pygame.font.Font("mult/font/pixel_art_font.ttf", 36)
         self.fuente_grande = pygame.font.Font("mult/font/pixel_art_font.ttf", 70)
+=======
+        self.imagen_fondo = pygame.image.load('proyecto_segundo_parcial\mult\img\ganaste.jpg')
+        self.imagen_fondo = pygame.transform.scale(self.imagen_fondo, (1000, 700))
+        self.fuente = pygame.font.Font("proyecto_segundo_parcial/mult/font/pixel_art_font.ttf", 36)
+        self.fuente_grande = pygame.font.Font("proyecto_segundo_parcial/mult/font/pixel_art_font.ttf", 70)
+>>>>>>> 5cf1fd485d96c27f2757fc39e0a0cd439bc8ad44
         self.escena = "Ganaste"
         self.screen = screen
         self.puntaje = puntaje

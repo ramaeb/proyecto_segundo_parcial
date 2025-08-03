@@ -108,21 +108,12 @@ class InicioJuego():
     def __init__(self,screen):
         self.screen = screen
         self.vidas = 3
-<<<<<<< HEAD
         self.imagen_fondo = pygame.image.load('mult\img\inicio_background.jpg')
         self.imagen_fondo = pygame.transform.scale(self.imagen_fondo, (800, 600))
         self.fuente = pygame.font.Font("mult/font/pixel_art_font.ttf", 14)
         self.fuente_vidas = pygame.font.Font("mult/font/pixel_art_font.ttf", 30)
         self.color_variable_vida = VERDE
         self.lista_datos = leer_csv('datos/preguntas.csv')
-=======
-        self.imagen_fondo = pygame.image.load('proyecto_segundo_parcial\mult\img\inicio_background.jpg')
-        self.imagen_fondo = pygame.transform.scale(self.imagen_fondo, (800, 600))
-        self.fuente = pygame.font.Font("proyecto_segundo_parcial/mult/font/pixel_art_font.ttf", 14)
-        self.fuente_vidas = pygame.font.Font("proyecto_segundo_parcial/mult/font/pixel_art_font.ttf", 30)
-        self.color_variable_vida = VERDE
-        self.lista_datos = leer_csv('proyecto_segundo_parcial/datos/preguntas.csv')
->>>>>>> 5cf1fd485d96c27f2757fc39e0a0cd439bc8ad44
         self.indice = 0
         self.vidas = 3
         self.puntaje = 0
@@ -243,17 +234,10 @@ class Perdiste():
         self.rect_4 = pygame.Rect(320,200,1000,50)#input_nombre
         self.rect_5 = pygame.Rect(400,500,100,40)#atras
         self.rect_6 = pygame.Rect(200,10,100,40)#perdiste!
-<<<<<<< HEAD
         self.imagen_fondo = pygame.image.load('mult\img\perdiste_background.jpg')
         self.imagen_fondo = pygame.transform.scale(self.imagen_fondo, (1000, 700))
         self.fuente = pygame.font.Font("mult/font/pixel_art_font.ttf", 36)
         self.fuente_grande = pygame.font.Font("mult/font/pixel_art_font.ttf", 70)
-=======
-        self.imagen_fondo = pygame.image.load('proyecto_segundo_parcial\mult\img\perdiste_background.jpg')
-        self.imagen_fondo = pygame.transform.scale(self.imagen_fondo, (1000, 700))
-        self.fuente = pygame.font.Font("proyecto_segundo_parcial/mult/font/pixel_art_font.ttf", 36)
-        self.fuente_grande = pygame.font.Font("proyecto_segundo_parcial/mult/font/pixel_art_font.ttf", 70)
->>>>>>> 5cf1fd485d96c27f2757fc39e0a0cd439bc8ad44
         self.escena = "Perdiste"
         self.screen = screen
         self.puntaje = puntaje
@@ -337,17 +321,10 @@ class Ganaste():
         self.rect_4 = pygame.Rect(320,200,1000,50)#input_nombre
         self.rect_5 = pygame.Rect(400,500,100,40)#atras
         self.rect_6 = pygame.Rect(200,10,100,40)#perdiste!
-<<<<<<< HEAD
         self.imagen_fondo = pygame.image.load('mult\img\ganaste.jpg')
         self.imagen_fondo = pygame.transform.scale(self.imagen_fondo, (1000, 700))
         self.fuente = pygame.font.Font("mult/font/pixel_art_font.ttf", 36)
         self.fuente_grande = pygame.font.Font("mult/font/pixel_art_font.ttf", 70)
-=======
-        self.imagen_fondo = pygame.image.load('proyecto_segundo_parcial\mult\img\ganaste.jpg')
-        self.imagen_fondo = pygame.transform.scale(self.imagen_fondo, (1000, 700))
-        self.fuente = pygame.font.Font("proyecto_segundo_parcial/mult/font/pixel_art_font.ttf", 36)
-        self.fuente_grande = pygame.font.Font("proyecto_segundo_parcial/mult/font/pixel_art_font.ttf", 70)
->>>>>>> 5cf1fd485d96c27f2757fc39e0a0cd439bc8ad44
         self.escena = "Ganaste"
         self.screen = screen
         self.puntaje = puntaje

@@ -13,7 +13,7 @@ vidas_perdidas = 0
 nombre_jugador = ''
 lista_prueba = []
 
-ruta_preguntas = 'proyecto_segundo_parcial/datos/preguntas.csv'
+ruta_preguntas = 'datos/preguntas.csv'
 datos = []
 with open(ruta_preguntas, mode = 'r') as arhivo:
     lectura = csv.DictReader(arhivo)
@@ -379,7 +379,7 @@ def mostrar_inciciar_juego(lista_datos: list):
 
 pantalla = pygame.display.set_mode((800, 600))
 
-fondo = pygame.image.load('proyecto_segundo_parcial\mult\img\preguntados_background.jpg')
+fondo = pygame.image.load('mult\img\preguntados_background.jpg')
 fondo_redimensionado = pygame.transform.scale(fondo, (800, 600))
 
 escena = 'menu_principal'

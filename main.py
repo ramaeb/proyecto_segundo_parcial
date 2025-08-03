@@ -3,11 +3,7 @@ import pygame
 import sys
 from funciones import *
 from pygame import *
-<<<<<<< HEAD
 from constantes import *    
-=======
-from constantes import *
->>>>>>> 5cf1fd485d96c27f2757fc39e0a0cd439bc8ad44
 from clases import *
 import json
 import csv

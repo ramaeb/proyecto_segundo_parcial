@@ -19,11 +19,7 @@ escena = "Menu"
 pygame.init() #Inicialización de pygame
 screen = pygame.display.set_mode((HEIGHT,WIDTH)) #Seteo del tamaño de la pantalla
 pygame.display.set_caption("Preguntados!")#Seteo del nombre de la ventana.
-<<<<<<< HEAD
 imagen_fondo = pygame.image.load('mult/img/preguntados_background.jpg')
-=======
-imagen_fondo = pygame.image.load('proyecto_segundo_parcial/mult/img/preguntados_background.jpg')
->>>>>>> 5cf1fd485d96c27f2757fc39e0a0cd439bc8ad44
 imagen_fondo = pygame.transform.scale(imagen_fondo, (HEIGHT,WIDTH))
 
 #Seteo escenas
@@ -34,11 +30,7 @@ top10partidas = Top10Partidas(screen)
 ganaste = Ganaste(screen,0)
 
 try:
-<<<<<<< HEAD
     with open('datos\partidas.json', 'r') as archivo:
-=======
-    with open('proyecto_segundo_parcial\datos\partidas.json', 'r') as archivo:
->>>>>>> 5cf1fd485d96c27f2757fc39e0a0cd439bc8ad44
         lista_jugadores = json.load(archivo)
 except:
     # Si el archivo no existe, se crea una lista vacía
@@ -102,11 +94,9 @@ while menu.corriendo:
     display.flip()
     pygame.display.update()
 
-<<<<<<< HEAD
+
 with open('datos\partidas.json', 'w') as archivo:
-=======
-with open('proyecto_segundo_parcial\datos\partidas.json', 'w') as archivo:
->>>>>>> 5cf1fd485d96c27f2757fc39e0a0cd439bc8ad44
+
         json.dump(top10partidas.lista_jugadores,archivo)
 pygame.quit()
 sys.exit()

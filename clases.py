@@ -12,29 +12,17 @@ class MenuPrincipal():
     def __init__(self, screen):
         self.screen = screen
         self.escena = "Menu"
-<<<<<<< HEAD
         self.imagen_fondo = pygame.image.load('mult/img/preguntados_background.jpg')
-=======
-        self.imagen_fondo = pygame.image.load('proyecto_segundo_parcial/mult/img/preguntados_background.jpg')
->>>>>>> 5cf1fd485d96c27f2757fc39e0a0cd439bc8ad44
         self.imagen_fondo = pygame.transform.scale(self.imagen_fondo, (800, 600))
         self.boton_inicio, self.text_rect, self.text_surface = crea_boton(300, 370, 200, 70, "Inicio")#Boton inicio
         self.boton_salida, self.text_rect_2, self.text_surface_2 = crea_boton(300, 500, 200, 70, "Salida")#Boton salida
         self.boton_config, self.text_rect_3, self.text_surface_3 = crea_boton(600, 0, 200, 70, "Config")#Boton config
         self.boton_top10, self.text_rect_4, self.text_surface_4 = crea_boton(0, 0, 200, 70, "Top10")#Boton top10
-<<<<<<< HEAD
         self.sonido_inicio = pygame.mixer.Sound("mult\sonido\inicio_efecto.mp3")
         self.sonido_inicio.set_volume(0.2)
         self.sonido_inicio.play(loops=0)
         #MUSICA
         self.musica_fondo = "mult/sonido/musica_fondo.mp3"
-=======
-        self.sonido_inicio = pygame.mixer.Sound("proyecto_segundo_parcial\mult\sonido\inicio_efecto.mp3")
-        self.sonido_inicio.set_volume(0.2)
-        self.sonido_inicio.play(loops=0)
-        #MUSICA
-        self.musica_fondo = "proyecto_segundo_parcial/mult/sonido/musica_fondo.mp3"
->>>>>>> 5cf1fd485d96c27f2757fc39e0a0cd439bc8ad44
         self.volumen = 0.2  # Volumen inicial
         pygame.mixer.music.load(self.musica_fondo)
         pygame.mixer.music.set_volume(0.2)  # Volumen inicial de la música de fondo

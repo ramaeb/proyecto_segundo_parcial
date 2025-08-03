@@ -24,7 +24,7 @@ def crea_boton(izquierda:int,arriba:int,ancho:int,alto:int,texto:str,color=(255,
     '''                     
     Retorna BOTON INICIO, RECT DEL TEXT, Y LA SUPERFICIE DEL TEXTO
     '''
-    fuente = pygame.font.Font("proyecto_segundo_parcial/mult/font/pixel_art_font.ttf", 30)
+    fuente = pygame.font.Font("mult/font/pixel_art_font.ttf", 30)
     boton_inicio = Rect(izquierda,arriba,ancho,alto)#Rect del BOTÓN
     text_surface = fuente.render(texto, True, color)#
     text_rect = text_surface.get_rect(center=(izquierda + ancho / 2, arriba + alto / 2))
